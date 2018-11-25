@@ -53,7 +53,6 @@ void Sequence(int* myarray, int n)
 
 	for (int i = 0; i <= n - 2; i++)
 	{
-		cout << myarray[i] << "  " << myarray[i + 1] << endl;
 		if (myarray[i + 1] > myarray[i])
 		{
 			stdecreasing = false;

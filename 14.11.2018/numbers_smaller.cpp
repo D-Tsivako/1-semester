@@ -73,7 +73,6 @@ bool CheckIncreasing(int* array, int n)
 
 	for (int i = 0; i <= n - 2; i++)
 	{
-		cout << array[i] << "  " << array[i + 1] << endl;
 		if (array[i + 1] > array[i])
 		{
 			stdecreasing = false;
