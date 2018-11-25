@@ -135,7 +135,7 @@ int LinearSearch(int* array, int n, int number)
 int BinarySearch(int* array, int n, int number)
 {
 	int left = 0;
-	int right = (n - 1);
+	int right = n;
 	int midd = 0;
 
 	while (1)
@@ -150,7 +150,7 @@ int BinarySearch(int* array, int n, int number)
 		{
 			left = midd + 1;
 		}
-		else if (number == array[midd] || number > array[midd] && number < array[midd + 1])
+		else
 		{
 			return midd;
 		}
