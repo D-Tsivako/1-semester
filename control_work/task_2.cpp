@@ -6,7 +6,7 @@ void encoding(char[], int[], char[]);
 void decoding(int[], char[], char[], char[]);
 void codingTests();
 bool equals(char[], char[]);
-int stringLength(char *);
+int stringLength(char*);
 
 int main()
 {
@@ -94,11 +94,11 @@ void codingTests()
 	cout << equals(givenString, changed) << endl;
 }
 
-int stringLength(char * string)
+int stringLength(char* string)
 {
 	int length = 0;
 
-	while (string[length] != '\0')
+	while (string[length])
 	{
 		length++;
 	}
