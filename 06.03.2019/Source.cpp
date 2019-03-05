@@ -147,20 +147,6 @@ int differenceOfRemainders(int number, int a, int b)
 	return dif;
 }
 
-//void sort(int* array, int n, int a, int b)
-//{
-//	for (int i = 0; i < n; i++)
-//	{
-//		for (int j = i; j < n; j++)
-//		{
-//			if (differenceOfRemainders(array[j], a, b) < differenceOfRemainders(array[j + 1], a, b))
-//			{
-//				swap(array[j], array[j + 1]);
-//			}
-//		}
-//	}
-//}
-
 void sort(int* array, int n, int a, int b)
 {
 	bool swapped = true;
