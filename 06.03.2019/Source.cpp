@@ -111,6 +111,8 @@ void inputArrayNew(int* array, int* arrayNew, int n, int& m)
 				m++;
 			}
 		}
+		
+		isMoved = false;
 	}
 }
 
