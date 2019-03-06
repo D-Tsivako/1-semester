@@ -1,3 +1,8 @@
+//45 67 45 45 32 6 71 (7, 17) -->  71 67 45 32 6
+//67 67 45 89 88 54 54 21 54 13 (4, 7) -->  89 88 67 54 45 21 13
+//2 2 2 2 2 2 2 2 (5, 8) --> 2
+//34 65 22 47 87 33 59 (11, 3) -->  87 65 59 47 34 33 22
+
 #include <iostream>
 #include "ArrayLibrary.h"
 
@@ -10,6 +15,8 @@ void inputArrayNew(int*, int*, int, int&);
 int shifter(int);
 int differenceOfRemainders(int, int, int);
 void sort(int*, int, int, int);
+void mergeSort(int*, int, Key);
+void merge(int*, int*, int*, int, int, Key);
 
 
 int main()
@@ -25,12 +32,16 @@ int main()
 
 	int *newArray = allocateMemory(n);
 	inputArrayNew(array, newArray, n, m);
-	cout << "Array of excess elemets: ";
-	displayArray(newArray, m);
-
-	deleteElements(newArray, n, m);
-	cout << "Array of shifters: ";
-	displayArray(newArray, n - m - 1);
+	if (m == 0)
+	{
+		cout << "There is no excess elements." << endl;
+	}
+	else
+	{
+		deleteElements(newArray, n, m);
+		cout << "Array of shifters: ";
+		displayArray(newArray, n - m - 1);
+	}
 
 	deleteElements(array, n, m);
 	cout << "Array without excess elements: ";
@@ -42,7 +53,7 @@ int main()
 	cout << "b: ";
 	b = inputNumber();
 
-	sort(array, n - m, a, b);
+	mergeSort(array, n - m, differenceOfRemainders);
 	cout << "Sorted array: ";
 	displayArray(array, n - m);
 
@@ -86,19 +97,20 @@ void inputArrayNew(int* array, int* arrayNew, int n, int& m)
 {
 	m = 0;
 	int k = 0;
+	bool isMoved = false;
 
 	for (int i = 0; i < n; i++)
 	{
 		for (int j = i + 1; j < n; j++)
 		{
-			if (array[i] == array[j])
+			if (array[i] == array[j] && isMoved==false)
 			{
 				arrayNew[k] = shifter(array[i]);
+				isMoved = true;
 				k++;
 				m++;
 			}
 		}
-
 	}
 }
 
@@ -121,7 +133,7 @@ int shifter(int number)
 	for (int j = i; j > 0; j--)
 	{
 		rem = n % 10;
-		newNumber += rem * pow(10, j - 1);
+		newNumber = newNumber + rem * pow(10, j - 1);
 		n /= 10;
 	}
 
@@ -163,6 +175,63 @@ void sort(int* array, int n, int a, int b)
 
 				swapped = true;
 			}
+		}
+	}
+}
+
+void mergeSort(int* array, int n, Key key)
+{
+	if (n > 1)
+	{
+		int p = n / 2 + n % 2;
+		int q = n / 2;
+
+		int* left = allocateMemory(p);
+		int* right = allocateMemory(q);
+
+		for (int i = 0; i < p; i++)
+		{
+			left[i] = array[i];
+		}
+		for (int j = 0; j < q; j++)
+		{
+			right[j] = array[p + j];
+		}
+		mergeSort(left, p, key);
+		mergeSort(right, q, key);
+		merge(array, left, right, p, q, key);
+	}
+	else
+	{
+		return;
+	}
+}
+
+void merge(int* array, int* left, int* right, int p, int q, Key key)
+{
+	int j = 0, k = 0;
+
+	for (int i = 0; i < p + q; i++)
+	{
+		if (j == p)
+		{
+			array[i] = right[k];
+			k++;
+		}
+		else if (k == q)
+		{
+			array[i] = left[j];
+			j++;
+		}
+		else if (Key(left[j]) > Key(right[k]))
+		{
+			*(array + i) = *(left + j);
+			j++;
+		}
+		else
+		{
+			*(array + i) = *(right + k);
+			k++;
 		}
 	}
 }

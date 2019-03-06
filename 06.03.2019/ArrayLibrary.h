@@ -3,6 +3,7 @@
 namespace ArrayExtension
 {
 	typedef int(*key)(int);
+	typedef int(*Key)(int, int, int);
 	typedef int(*keyD)(double);
 
 	int* allocateMemory(int);
