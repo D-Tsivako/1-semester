@@ -44,4 +44,18 @@ namespace ArrayExtension
 	int countOfZerosInBinaryPresentation(int);
 
 	int sqr(int);
+
+	int inputNumber();
+
+	void deleteElements(int*, int, int&);
+
+	void inputArrayNew(int*, int*, int, int&);
+
+	int shifter(int);
+
+	int differenceOfRemainders(int, int, int);
+
+	void mergeSort(int*, int, Key);
+
+	void merge(int*, int*, int*, int, int, Key);
 }
