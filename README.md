@@ -11,4 +11,4 @@
 
 02.04.2019 [Laboratory №4.](https://github.com/D-Tsivako/Laboratory-Works/tree/master/Tsivako.2019.LW4)
 
-03.04.2019[Control Work](https://github.com/D-Tsivako/Homework_1_course/tree/master/control_work_03.04.2019)
+03.04.2019 [Control Work](https://github.com/D-Tsivako/Homework_1_course/tree/master/control_work_03.04.2019)
