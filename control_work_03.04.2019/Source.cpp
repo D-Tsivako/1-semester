@@ -1,192 +1,105 @@
 #define _CRT_SECURE_NO_WARNINGS
-#include <iostream>
+#include<iostream>
 
 using namespace std;
 
+typedef char*(*CodeLetter)(char);
+typedef char*(*CodeWord)(char*, int, CodeLetter);
+
 const int N = 256;
 
-typedef char*(*code)(char*);
-
-char* inputString();
-void task(char*, int, code);
-void replaceString(char*, char*, char*);
-int substringPosition(char*, char*, int);
-char* Encode(char*);
+char* task(char*, int, CodeWord, CodeLetter);
+char* encodeWords(char*, int, CodeLetter);
+char* encodeLetter(char);
 
 int main()
 {
-	char* string = inputString();
+	char string[N] = "I said, It is serious doctor, I have broken my arm in twenty places. He said: Well stop going to those places.";
+	cout << string << endl;
 
 	int length;
-	cout << "Word length count ";
+	cout << "Length of word to code ";
 	cin >> length;
 
-	task(string, length, Encode);
-
-	cout << string << endl;
+	cout << task(string, length, encodeWords, encodeLetter) << endl;
 
 	system("pause");
 	return 0;
 }
 
-char* inputString()
+char* task(char* source, int lengthWords, CodeWord codeWord, CodeLetter codeLetter)
 {
-	char* string = new char[N];
+	const char* symbols = "ABCDEFGHIJKLMNOPQRSTUWVXYZabcdefghijklnmopqrstuwvxyz";
+	char* pword = strpbrk(source, symbols);
+	char* result = new char[N] {0};
 
-	cout << "Enter the string (<= 256 symbols): ";
-	cin.getline(string, N);
+	while (pword)
+	{
+		int length = strspn(pword, symbols);
 
-	return string;
+		if (lengthWords == length)
+		{
+			char* code = codeWord(pword, length, codeLetter);
+			strcat(result, code);
+			pword += length;
+			pword = strpbrk(pword, symbols);
+		}
+		else
+		{
+			strncat(result, pword, length + 1);
+			pword += length;
+			pword = strpbrk(pword, symbols);
+		}
+	}
+
+	delete[] pword;
+
+	return result;
 }
 
-void task(char* string, int count, code code)
+char* encodeWords(char* word, int length, CodeLetter codeLetter)
 {
-	char* copy = new char[N];
-	strcpy(copy, string);
-	char* newString = strtok(copy, " ,.");
+	char* result = new char[N] {0};
 
-	while (newString)
+	for (int i = 0; i < length; i++)
 	{
-		if (strlen(newString) == count)
-		{
-			replaceString(string, newString, code(newString));
-		}
-
-		newString = strtok(NULL, " ,.-");
+		strcat(result, codeLetter(word[i]));
 	}
 
-	delete[] newString;
-	delete[] copy;
+	strcat(result, " ");
+
+	return result;
 }
 
-void replaceString(char* string, char* substing, char* replace)
+char* encodeLetter(char letter)
 {
-	char* newString = new char[N];
+	const char* symbolsUp = "ZYXWVUTSRQPONMLKJIHGFEDCBA";
+	const char* symbolsDown = "zyxwvutsrqponmlkjihgfedcba";
+	const char* brace = "()";
 
-	int newLength = strlen(replace),
-		oldLength = strlen(substing),
-		sLength = strlen(string),
-		start = 0,
-		oldStart = 0,
-		count = 0,
-		difference = newLength - oldLength;
+	char* code = new char[5]{ 0 };
 
-	int index = substringPosition(string, substing, start);
-
-	for (int i = 0; i < index; i++)
+	for (int i = 0; i < strlen(symbolsUp); i++)
 	{
-		newString[i] = string[i];
-	}
-
-	while (index != -1)
-	{
-		for (int j = index + count * (difference), i = 0; j < index + newLength + count * (difference); j++, i++)
+		if (letter == symbolsUp[i] || letter == symbolsDown[i])
 		{
-			newString[j] = replace[i];
-		}
-		start = index + newLength;
+			code[0] = brace[0];
 
-		int newIndex = substringPosition(string, substing, start);
-
-		while (newIndex != -1)
-		{
-			for (int i = index + newLength + count * (difference), j = index + oldLength; j < newIndex; i++, j++)
+			if (i < 10)
 			{
-				newString[i] = string[j];
-			}
-			break;
-		}
-
-		while (newIndex == -1)
-		{
-			for (int i = index + newLength + count * (difference), j = index + oldLength; j < sLength; i++, j++)
-			{
-				newString[i] = string[j];
-			}
-			break;
-		}
-
-		index = substringPosition(string, substing, start);
-		count++;
-	}
-
-	newString[strlen(string) + difference] = '\0';
-	strcpy(string, newString);
-}
-
-int substringPosition(char* string, char* substring, int start)
-{
-	int n = strlen(string),
-		m = strlen(substring);
-
-	if (m > n)
-	{
-		return -1;
-	}
-
-	int count = 0,
-		index = -1;
-
-	for (int i = start; i < n; i++)
-	{
-		for (int j = 0; j < m; j++)
-		{
-			if (substring[j] == string[i + count])
-			{
-				index = i;
-				count++;
-				if (j == m - 1)
-				{
-					return index;
-				}
+				code[1] = i + '0';
+				code[2] = brace[1];
 			}
 			else
 			{
-				index = -1;
-				count = 0;
-				break;
+				code[1] = i / 10 + '0';
+				code[2] = i % 10 + '0';
+				code[3] = brace[1];
 			}
+
+			break;
 		}
 	}
-	return index;
-}
 
-char* Encode(char* word)
-{
-	char* codedWord = new char[N];
-	const char* symbolsUp = "ZYXWVUTSRQPONMLKJIHGFEDCBA";
-	const char* symbolsDown = "zyxwvutsrqponmlkjihgfedcba";
-
-	int length = 0;
-	bool isEncode = false;
-
-	for (int i = 0; i < strlen(word); i++)
-	{
-		for (int j = 0; j < strlen(symbolsUp), isEncode == false; j++)
-		{
-			if (word[i] == symbolsUp[j] || word[i] == symbolsDown[j])
-			{
-				codedWord[length] = '(';
-				length++;
-
-				if (j > 9)
-				{
-					codedWord[length] = 48 + (j + 1) / 10;
-					length++;
-				}
-
-				codedWord[length] = 48 + (j + 1) % 10;
-				length++;
-
-				codedWord[length] = ')';
-				length++;
-				isEncode = true;
-			}
-		}
-		isEncode = false;
-	}
-
-	codedWord[length] = '\0';
-
-	return codedWord;
+	return code;
 }
