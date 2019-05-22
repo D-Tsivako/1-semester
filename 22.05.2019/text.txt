@@ -1,0 +1,10 @@
+Petr Petrov MMF 6 7 8 9
+Ivan Ivanov FPMI 4 4 5 4
+Anton Sidorov MMF 9 9 8 9
+Petr Petrov MMF 6 7 8 9
+Ivan Ivanov FPMI 4 4 5 4
+Anton Sidorov MMF 9 9 8 9
+Petr Petrov MMF 6 7 8 9
+Ivan Ivanov FPMI 4 4 5 4
+Anton Sidorov MMF 9 9 8 9
+
