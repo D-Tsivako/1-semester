@@ -8,7 +8,6 @@ Student* readFromFile(char*);
 void writeToBinary(char* binaryFile, Student* students, int number);
 void DisplayFile(char*);
 void SystemFun();
-void InitNameFile(char*);
 
 int main()
 {
@@ -47,14 +46,15 @@ Student* readFromFile(char* fileName)
 		streamIn >> name;
 		streamIn >> secondName;
 		streamIn >> faculty;
+		
 		for (int j = 0; j < 4; j++)
 		{
 			streamIn >> marks[j];
-
 		}
 
 		student[i].SetStudent(name, secondName, faculty, marks);
 	}
+	
 	return student;
 }
 
@@ -77,6 +77,7 @@ void writeToBinary(char* binaryFile, Student* student, int n)
 	{
 		streamOut.write((char*)&student[i], buffSize);
 	}
+	
 	streamOut.close();
 }
 
@@ -106,14 +107,5 @@ void SystemFun()
 {
 	cout << endl;
 	system("pause");
-	system("cls");
-}
-
-void InitNameFile(char* fileName)
-{
-	cout << "Enter the name of file: " << endl;
-	cin.ignore();
-	cin.getline(fileName, 256, '\n');
-	
 	system("cls");
 }
