@@ -55,6 +55,7 @@ Student* Read(char* fileName)
 
 		student[i].SetStudent(name, secondName, faculty, marks);
 	}
+	
 	return student;
 }
 
@@ -77,6 +78,7 @@ void Write(char* binaryFile, Student* student, int n)
 	{
 		streamOut.write((char*)&student[i], buffSize);
 	}
+	
 	streamOut.close();
 }
 
